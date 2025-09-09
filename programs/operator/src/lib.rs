@@ -17,7 +17,7 @@ pub fn process_instruction(mut context: InstructionContext) -> ProgramResult {
 
     let program_id = context.program_id()?;
 
-    if account.key() == program_id {
+    if cmp(account.key(), program_id) {
         return Err(ProgramError::IncorrectProgramId);
     }
 
