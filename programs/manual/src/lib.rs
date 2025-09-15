@@ -4,9 +4,11 @@ use pinocchio::{
     entrypoint::{InstructionContext, MaybeAccount},
     lazy_program_entrypoint,
     program_error::ProgramError,
-    pubkey::Pubkey,
+    pubkey::{Pubkey, PUBKEY_BYTES},
     ProgramResult,
 };
+
+const CMP_KEY: Pubkey = [2u8; PUBKEY_BYTES];
 
 lazy_program_entrypoint!(process_instruction);
 
@@ -17,10 +19,8 @@ pub fn process_instruction(mut context: InstructionContext) -> ProgramResult {
         return Err(ProgramError::NotEnoughAccountKeys);
     };
 
-    let program_id = context.program_id()?;
-
-    if cmp(account.key(), program_id) {
-        return Err(ProgramError::IncorrectProgramId);
+    if cmp(account.key(), &CMP_KEY) {
+        return Err(ProgramError::InvalidArgument);
     }
 
     Ok(())

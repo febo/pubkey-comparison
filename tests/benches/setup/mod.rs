@@ -2,13 +2,15 @@ use mollusk_svm::Mollusk;
 use mollusk_svm_bencher::MolluskComputeUnitBencher;
 use solana_account::Account;
 use solana_instruction::{AccountMeta, Instruction};
-use solana_pubkey::Pubkey;
+use solana_pubkey::{Pubkey, PUBKEY_BYTES};
 
 /// System program ID, used for creating accounts.
 const SYSTEM_PROGRAM: Pubkey = Pubkey::new_from_array([0; 32]);
 
 /// Base lamports for accounts, used to ensure accounts are rent-exempt.
 pub const BASE_LAMPORTS: u64 = 2_000_000_000u64;
+
+const CMP_KEY: Pubkey = Pubkey::new_from_array([2u8; PUBKEY_BYTES]);
 
 /// Create a new Mollusk instance for the given program ID and name.
 pub fn setup(program_id: &Pubkey, name: &'static str) -> Mollusk {
@@ -54,10 +56,8 @@ pub fn cmp_pubkey(program_id: &Pubkey, name: &'static str) {
     let mut accounts = Vec::with_capacity(keys.len());
     let mut account_metas = Vec::with_capacity(keys.len());
 
-    for _ in 0..keys.len() {
-        accounts.push((*program_id, Account::new(BASE_LAMPORTS, 0, &SYSTEM_PROGRAM)));
-        account_metas.push(AccountMeta::new_readonly(*program_id, false));
-    }
+    accounts.push((CMP_KEY, Account::new(BASE_LAMPORTS, 0, &SYSTEM_PROGRAM)));
+    account_metas.push(AccountMeta::new_readonly(CMP_KEY, false));
 
     let instruction = Instruction {
         program_id: *program_id,
