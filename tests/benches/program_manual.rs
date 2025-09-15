@@ -21,6 +21,6 @@ mod pinocchio {
 
     #[bench]
     fn run(_bencher: &mut Bencher) {
-        setup::cmp_pubkey(&PROGRAM_ID, "operator");
+        setup::cmp_pubkey(&PROGRAM_ID, "manual");
     }
 }
