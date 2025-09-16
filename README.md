@@ -28,14 +28,14 @@ make bench program_manual
 
 After the execution, mollusk with report the compute units in a `compute_units.md` located at `./target/benches`.
 ```
-#### 2025-08-28 10:58:36.299232 UTC
+#### 2025-09-16 10:49:26.381107 UTC
 
 Solana CLI Version: solana-cli 2.1.22 (src:26944979; feat:1416569292, client:Agave)
 
 | Name | CUs | Delta |
 |------|------|-------|
-| Different | 25 | - new - |
-| Same | 4 | - new - |
+| Different | 10 | - new - |
+| Same | 18 | - new - |
 ```
 
 When you make modification or run a different program but execute the same bench test, the "Delta" column will show the difference in CUs compared to the previous run.
